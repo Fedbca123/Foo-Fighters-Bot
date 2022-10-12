@@ -17,7 +17,7 @@ client.on('interactionCreate', async (interaction) => {
 
 	const { commandName } = interaction;
 
-	if (commandName == 'One Piece') {
+	if (commandName == 'one-piece') {
 		await interaction.reply(
 			'https://www.cbr.com/jojos-bizarre-adventure-best-anime-of-all-time/',
 		);

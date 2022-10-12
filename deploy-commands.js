@@ -3,7 +3,7 @@ const { clientId, guildId, token } = require('./config.json');
 
 const commands = [
 	new SlashCommandBuilder()
-		.setName('One Piece')
+		.setName('one-piece')
 		.setDescription('THE ONE PIECE IS REAAAAAL'),
 	new SlashCommandBuilder()
 		.setName('server')
@@ -13,7 +13,7 @@ const commands = [
 		.setDescription('Replies with user info'),
 ].map((command) => command.toJSON());
 
-const rest = new new REST({ version: '10' }).setToken(token);
+const rest = new REST({ version: '10' }).setToken(token);
 
 rest.put(Routes.applicationGuildCommands(clientId, guildId), {
 	body: commands,
