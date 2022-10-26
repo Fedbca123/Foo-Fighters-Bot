@@ -65,4 +65,23 @@ async function playMusic() {
 	}
 
 	curState.isIdle = false;
+
+	let channel = state.voiceChannels[largest].chan;
+
+	joinVoiceChannel(channel);
+
+	try{
+		await entersState(curState.connection, VoiceConnectionStatus.Ready, 20e3);
+	} catch(e){
+		console.warn(e);
+		curState.notifChannel.send(`Failed to join the voice channel ${channel.id} in 20s. <@${annoyState.notifUser.id}>`).catch(console.warn);
+		return;
+	}
+
+	const file = files[getRandomInt(files.length, 0)];
+
+	const resource = createAudioResource(baseurl + file + params, {
+		inputType: StreamType.Arbitrary,
+	});
+
 }
