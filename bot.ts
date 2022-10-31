@@ -10,10 +10,13 @@ import { Track } from './music/track';
 import { MusicSubscription } from './music/subscription';
 
 const { token } = require('./config.json');
+const fs = require('node:fs');
+const path = require('node:path');
+const { Client, Collection, GatewayIntentBits } = require('discord.js');
 
-const client = new Discord.Client({ intents: ['GUILD_VOICE_STATES', 'GUILD_MESSAGES', 'GUILDS'] });
+// const client = new Discord.Client({ intents: ['GUILD_VOICE_STATES', 'GUILD_MESSAGES', 'GUILDS'] });
 
-const client2 = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: ['GUILD_VOICE_STATES', 'GUILD_MESSAGES', 'GUILDS', GatewayIntentBits.Guilds] });
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
@@ -27,7 +30,7 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command);
 }
 
-
+client.on('ready', () => console.log('Ready!'));
 
 client.on('messageCreate', async (message) => {
     if (!message.guild) return;
@@ -192,7 +195,5 @@ client.on('interactionCreate', async (interaction: Interaction) => {
 });
 
 client.on('error', console.warn);
-
-client.on('ready', () => console.log('Ready!'));
 
 void client.login(token);
