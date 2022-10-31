@@ -16,6 +16,14 @@ const client = new Discord.Client({ intents: ['GUILD_VOICE_STATES', 'GUILD_MESSA
 client.slashcommands = new Discord.Collection()
 
 client.commands = new Collection();
+
+client.player = new Player(client, {
+    ytdlOptions: {
+        
+    }
+})
+
+
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs
 	.readdirSync(commandsPath)
@@ -26,3 +34,8 @@ for (const file of commandFiles) {
 	const command = require(filePath);
 	client.commands.set(command.data.name, command);
 }
+
+client.once('ready', () => {
+	console.log('Ready!');
+});
+
