@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
-const { isOptionalTypeNode } = require('typescript');
+const { QueryType } = require('discord-player');
 
 module.exports = {
 	data: new SlashCommandBuilder()
