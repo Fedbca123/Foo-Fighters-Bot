@@ -1,18 +1,18 @@
-const { Collection } = require('discord.js');
+const { Collection } = require("discord.js");
 
-const Discord = require('discord.js');
-const fs = require('node:fs');
-const path = require('node:path');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('@discord-api-types/v9');
-const { Player } = require('discord-player');
+const Discord = require("discord.js");
+const fs = require("node:fs");
+const path = require("node:path");
+const { REST } = require("@discordjs/rest");
+const { Routes } = require("discord.js/node_modules/discord-api-types/v9");
+const { Player } = require("discord-player");
 
-const load_Slash = process.argv[2] == 'load';
+const load_Slash = process.argv[2] == "load";
 
-const { clientId, guildId, token } = require('./config.json');
+const { clientId, guildId, token } = require("./config.json");
 
 const client = new Discord.Client({
-	intents: ['GUILD_VOICE_STATES', 'GUILD_MESSAGES', 'GUILDS'],
+	intents: ["GUILD_VOICE_STATES", "GUILD_MESSAGES", "GUILDS"],
 });
 
 client.slashcommands = new Discord.Collection();
@@ -21,17 +21,17 @@ client.commands = new Collection();
 
 client.player = new Player(client, {
 	ytdlOptions: {
-		quality: 'highestaudio',
+		quality: "highestaudio",
 		highWaterMark: 1 << 25,
 	},
 });
 
 const commands = [];
 
-const commandsPath = path.join(__dirname, 'commands');
+const commandsPath = path.join(__dirname, "commands");
 const commandFiles = fs
 	.readdirSync(commandsPath)
-	.filter((file) => file.endsWith('.ts'));
+	.filter((file) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
@@ -41,12 +41,12 @@ for (const file of commandFiles) {
 }
 
 if (load_Slash) {
-	const rest = new REST({ version: '10' }).setToken(token);
+	const rest = new REST({ version: "10" }).setToken(token);
 	rest.put(Routes.applicationGuildCommands(clientId, guildId), {
 		body: commands,
 	})
 		.then(() => {
-			console.log('Successfully loaded application commands.');
+			console.log("Successfully loaded application commands.");
 			process.exit(0);
 		})
 		.catch((err) => {
@@ -57,17 +57,17 @@ if (load_Slash) {
 		});
 	// eslint-disable-next-line brace-style
 } else {
-	client.on('ready', () => {
+	client.on("ready", () => {
 		console.log(`Logged in as ${client.user.tag}`);
 	});
-	client.on('interactionCreate', (interaction) => {
+	client.on("interactionCreate", (interaction) => {
 		async function handleCommand() {
 			if (!interaction.isCommand()) return;
 
 			const command = client.slashcommands.get(interaction.commandName);
 
 			if (!command) {
-				interaction.reply('Not a valid command!');
+				interaction.reply("Not a valid command!");
 			}
 
 			await interaction.deferReply();
