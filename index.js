@@ -25,7 +25,7 @@ for (const file of commandFIles) {
 	const command = require(filePath);
 
 	client.commands.set(command.data.name, command);
-	commands.push(command);
+	commands.push(command.data.toJSON());
 }
 
 client.player = new Player(client, {
@@ -34,6 +34,8 @@ client.player = new Player(client, {
 		highWaterMark: 1 << 25,
 	},
 });
+
+// client.player.extractors.loadDefault();
 
 client.on("ready", () => {
 	const guild_ids = client.guilds.cache.map((guild) => guild.id);
